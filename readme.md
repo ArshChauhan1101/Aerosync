@@ -28,3 +28,19 @@ This project requires a C++17 compatible compiler (GCC/MSVC) and a networking li
 1. Clone the repository:
    ```bash
    git clone https://github.com/ArshChauhan1101/Aerosync.git
+   ```
+
+2. Run the ATC Server (Terminal 1):
+   ```bash
+   ./atc_server
+   ```
+
+3. Run the Aircraft Client (Terminal 2):
+   ```bash
+   ./aircraft_client
+   ```
+
+4. Clean build files:
+   ```bash
+   make clean
+   ```
