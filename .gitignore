@@ -1,0 +1,14 @@
+# Compiled binaries
+atc_server
+aircraft_client
+
+# Generated data
+telemetry_data.bin
+client_log.txt
+server_log.txt
+
+# OS files
+.DS_Store
+
+# IDE
+.vscode/
