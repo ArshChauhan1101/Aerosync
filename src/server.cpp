@@ -15,16 +15,32 @@ namespace fs = std::filesystem;
 
 // REQ-SVR-040: Create dummy telemetry data
 void generateTelemetryFile(const std::string& filename) {
-    if (fs::exists(filename)) return;
+    if (std::filesystem::exists(filename)) return;
 
     std::ofstream outFile(filename, std::ios::binary);
     if (outFile.is_open()) {
-        for (uint32_t i = 0; i < TELEMETRY_SIZE; ++i) {
-            char byte = static_cast<char>(i % 256);
-            outFile.write(&byte, 1);
+        // We create exactly 1,048,576 bytes (1MB) 
+        for (uint32_t i = 0; i < 1048576; i += 64) {
+            // 1. Structural Header (8 bytes)
+            char frameHeader[8] = {'A', 'E', 'R', 'O', 'S', 'Y', 'N'}; 
+            frameHeader[7] = (i / 64) % 256; // Frame ID for tracking
+
+            // 2. Simulated Flight Data (8 bytes)
+            float altitude = 30000.0f + (float)(i % 500);
+            float airspeed = 450.0f + (float)(i % 50);
+
+            outFile.write(frameHeader, 8);
+            outFile.write(reinterpret_cast<char*>(&altitude), sizeof(float));
+            outFile.write(reinterpret_cast<char*>(&airspeed), sizeof(float));
+
+            // 3. Padding/Sensor Matrix (48 bytes) to fill the 64-byte frame
+            char padding[48];
+            for(int j=0; j<48; ++j) padding[j] = (char)(j + 65); // Clear 'A-Z' pattern
+            
+            outFile.write(padding, 48);
         }
         outFile.close();
-        std::cout << "[ATC] Created 1MB Telemetry File: " << filename << std::endl;
+        std::cout << "[ATC] Created Structured 1.0 MB Avionics Matrix." << std::endl;
     }
 }
 
