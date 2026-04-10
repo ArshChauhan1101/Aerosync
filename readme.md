@@ -15,17 +15,9 @@ AeroSync is a high-integrity, client-server framework designed for the reliable 
 * `src/client.cpp`: Aircraft logic, dynamic buffer reassembly, and timeout management.
 * `include/constants.h`: Shared definitions for the **12-byte Data Packet** structure and system ports.
 * `include/logger.h`: Thread-safe, flush-enabled logging utility for audit trail generation.
+* `tests/`: To test code based on unit and integration of system.
 * `Makefile`: Automated build script optimized for MacOS (Clang/C++17).
 
-## 📊 Technical Specifications
-| Component | Requirement ID | Description |
-| :--- | :--- | :--- |
-| **Protocol** | REQ-COM-010 | TCP/IP Suite for distributed exchange. |
-| **Object Size** | REQ-CLT-030 | 1,048,576 Bytes (1 MB) Bit-mapped Telemetry. |
-| **Packet Header**| REQ-PKT-030 | Fixed 12-byte header (Type, Seq, Length). |
-| **Security** | REQ-SVR-020 | Formal 3-way handshake verification gate. |
-| **Timeout** | REQ-COM-060 | 5-second maximum wait for signal blackout detection. |
-| **Logging** | REQ-LOG-060 | Session headers with unique Target IDs and timestamps. |
 
 ## ⚙️ Building & Running
 This project requires a C++17 compatible compiler (GCC/Clang).
@@ -50,3 +42,21 @@ This project requires a C++17 compatible compiler (GCC/Clang).
    ```bash
    make clean
    ```
+
+
+## Testing (WIP)
+AeroSync utilizes a multi-tiered testing strategy in accordance with REQ-SYS-020
+
+Next Phase (Weeks 13-14): Expansion of test suite to include full MISRA compliance checks, edge-case payload stress tests, and formal usability trials.
+
+### 1. Unit Testing (REQ-SYS-020)
+Individual modules are tested for boundary conditions and structural integrity.
+- Compile Tests: g++ -std=c++17 tests/unit_tests.cpp -I ./include -o tests/run_units
+- Execute: ./tests/run_units
+- Validates: 12-byte header alignment (REQ-PKT-030) and telemetry constants (REQ-SVR-0-30).
+
+### 2. Integration & System Testing (REQ-SYS-070)
+Verifies the end-to-end data flow and "bit-perfect" reassembly of the 1.0 MB telemetry object.
+- Run the ATC Server and Aircraft Client to complete a transfer.
+- Execute Script: ./tests/integration_test.sh
+- Validation: The script parses client_log.txt and server_log.txt to verify exactly 1,048,576 bytes were exchanged.
