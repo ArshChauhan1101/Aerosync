@@ -27,7 +27,7 @@ public:
     Logger(std::string name) : fileName(name) {
         // REQ-LOG-020/030: Open in Append mode so we don't delete old data
         logFile.open(fileName, std::ios::app);
-
+        
         // REQ-LOG-060: Write a Session Header when we start
         if (logFile.is_open()) {
             logFile << "\n--- NEW SESSION START: " << getTimestamp() << " ---" << std::endl;
@@ -46,10 +46,10 @@ public:
     void logPacket(uint32_t type, uint32_t seq, uint32_t size, std::string status) {
         if (logFile.is_open()) {
             logFile << "[" << getTimestamp() << "] "
-                << "TYPE: " << type << " | "
-                << "SEQ: " << seq << " | "
-                << "SIZE: " << size << " bytes | "
-                << "STATUS: " << status << std::endl;
+                    << "TYPE: " << type << " | "
+                    << "SEQ: " << seq << " | "
+                    << "SIZE: " << size << " bytes | "
+                    << "STATUS: " << status << std::endl;
             logFile.flush(); // Ensure it writes to disk immediately
         }
     }

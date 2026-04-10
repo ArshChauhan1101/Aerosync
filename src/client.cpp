@@ -79,10 +79,10 @@ int main() {
     std::cout << "[PILOT] Requesting 1MB Telemetry Object..." << std::endl;
 
     // 7. Receive and Reassemble (REQ-CLT-040)
-    uint32_t totalReceived = 0;
-    char* telemetryBuffer = new char[TELEMETRY_SIZE]; // Dynamic Memory Allocation
+uint32_t totalReceived = 0;
+char* telemetryBuffer = new char[TELEMETRY_SIZE]; // Dynamic Memory Allocation
 
-    std::cout << "[PILOT] Receiving data stream..." << std::endl;
+std::cout << "[PILOT] Receiving data stream..." << std::endl;
 
 while (totalReceived < TELEMETRY_SIZE) {
     PacketHeader chunkHeader;
