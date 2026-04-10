@@ -56,7 +56,7 @@ int main() {
     // 4. Send Handshake Request (REQ-COM-030)
     PacketHeader handshake = {1, 101, 0}; // Type 1, Seq 101
     send(sock, &handshake, sizeof(handshake), 0);
-    clientLog.logPacket(1, 101, 0, "SENT_REQUEST"); // ✅ ADDED
+    clientLog.logPacket(1, 101, 0, "SENT_REQUEST"); 
 
     std::cout << "[PILOT AIRCRAFT] Handshake sent. Waiting for ATC response..." << std::endl;
 
@@ -65,22 +65,22 @@ int main() {
     recv(sock, &response, sizeof(response), 0);
 
     if (response.packetType == 4) { // 4 = ACK
-        clientLog.logPacket(4, 0, 0, "RECEIVED_ACK"); // ✅ ADDED
+        clientLog.logPacket(4, 0, 0, "RECEIVED_ACK"); 
         std::cout << "[PILOT AIRCRAFT] Handshake Verified by ATC. Link is stable." << std::endl;
     } else {
-        clientLog.logPacket(response.packetType, response.sequenceNumber, 0, "INVALID_ACK"); // ✅ OPTIONAL
+        clientLog.logPacket(response.packetType, response.sequenceNumber, 0, "INVALID_ACK"); 
         std::cout << "[PILOT AIRCRAFT] Connection Error: No Handshake ACK." << std::endl;
     }
 
     // 6. Request 1MB Telemetry (REQ-CLT-030)
-    PacketHeader dataRequest = {2, 102, 0}; // Type 2 = Request
+    PacketHeader dataRequest = {2, 102, 0}; 
     send(sock, &dataRequest, sizeof(dataRequest), 0);
     clientLog.logPacket(2, 102, 0, "DATA_REQUEST_SENT");
     std::cout << "[PILOT] Requesting 1MB Telemetry Object..." << std::endl;
 
     // 7. Receive and Reassemble (REQ-CLT-040)
 uint32_t totalReceived = 0;
-char* telemetryBuffer = new char[TELEMETRY_SIZE]; // Dynamic Memory Allocation
+char* telemetryBuffer = new char[TELEMETRY_SIZE]; 
 
 std::cout << "[PILOT] Receiving data stream..." << std::endl;
 
