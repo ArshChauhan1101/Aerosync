@@ -51,8 +51,14 @@ Next Phase (Weeks 13-14): Expansion of test suite to include full MISRA complian
 
 ### 1. Unit Testing (REQ-SYS-020)
 Individual modules are tested for boundary conditions and structural integrity.
-- Compile Tests: g++ -std=c++17 tests/unit_tests.cpp -I ./include -o tests/run_units
-- Execute: ./tests/run_units
+- Compile Tests: 
+``` bash
+g++ -std=c++17 tests/unit_tests.cpp -I ./include -o tests/run_units
+```
+- Execute: 
+``` bash
+./tests/run_units
+```
 - Validates: 12-byte header alignment (REQ-PKT-030) and telemetry constants (REQ-SVR-0-30).
 
 ### 2. Integration & System Testing (REQ-SYS-070)
