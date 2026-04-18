@@ -1,0 +1,72 @@
+Checking src/client.cpp ...
+src/client.cpp:0:0: information: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches. [normalCheckLevelMaxBranches]
+
+^
+include/logger.h:18:17: style: The member function 'Logger::getTimestamp' can be static. [functionStatic]
+    std::string getTimestamp() {
+                ^
+include/logger.h:27:5: style: Class 'Logger' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+    Logger(std::string name) : fileName(name) {
+    ^
+src/client.cpp:43:51: warning: Potentially invalid type conversion in old-style C cast, clarify/fix with C++ cast [dangerousTypeCast]
+    if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof(tv)) < 0) {
+                                                  ^
+src/client.cpp:48:23: warning: Potentially invalid type conversion in old-style C cast, clarify/fix with C++ cast [dangerousTypeCast]
+    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+                      ^
+src/client.cpp:54:18: style: Variable 'currentState' is reassigned a value before the old one has been used. [redundantAssignment]
+    currentState = CONNECTED;
+                 ^
+src/client.cpp:36:18: note: currentState is assigned
+    currentState = CONNECTING;
+                 ^
+src/client.cpp:54:18: note: currentState is overwritten
+    currentState = CONNECTED;
+                 ^
+include/logger.h:27:24: performance: Function parameter 'name' should be passed by const reference. [passedByValue]
+    Logger(std::string name) : fileName(name) {
+                       ^
+include/logger.h:46:76: performance: Function parameter 'status' should be passed by const reference. [passedByValue]
+    void logPacket(uint32_t type, uint32_t seq, uint32_t size, std::string status) {
+                                                                           ^
+src/client.cpp:50:22: style: Variable 'currentState' is assigned a value that is never used. [unreadVariable]
+        currentState = ERROR;
+                     ^
+src/client.cpp:54:18: style: Variable 'currentState' is assigned a value that is never used. [unreadVariable]
+    currentState = CONNECTED;
+                 ^
+1/2 files checked 41% done
+Checking src/server.cpp ...
+src/server.cpp:0:0: information: Limiting analysis of branches. Use --check-level=exhaustive to analyze all branches. [normalCheckLevelMaxBranches]
+
+^
+src/server.cpp:73:25: warning: Potentially invalid type conversion in old-style C cast, clarify/fix with C++ cast [dangerousTypeCast]
+    if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
+                        ^
+src/server.cpp:90:45: warning: Potentially invalid type conversion in old-style C cast, clarify/fix with C++ cast [dangerousTypeCast]
+        if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
+                                            ^
+src/server.cpp:90:74: warning: Potentially invalid type conversion in old-style C cast, clarify/fix with C++ cast [dangerousTypeCast]
+        if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
+                                                                         ^
+src/server.cpp:96:22: style: Variable 'currentState' is reassigned a value before the old one has been used. [redundantAssignment]
+        currentState = CONNECTED;
+                     ^
+src/server.cpp:86:22: note: currentState is assigned
+        currentState = LISTENING;
+                     ^
+src/server.cpp:96:22: note: currentState is overwritten
+        currentState = CONNECTED;
+                     ^
+src/server.cpp:52:20: style: The scope of the variable 'new_socket' can be reduced. [variableScope]
+    int server_fd, new_socket;
+                   ^
+src/server.cpp:51:30: style: Variable 'currentState' is assigned a value that is never used. [unreadVariable]
+    ServerState currentState = IDLE;
+                             ^
+src/server.cpp:96:22: style: Variable 'currentState' is assigned a value that is never used. [unreadVariable]
+        currentState = CONNECTED;
+                     ^
+2/2 files checked 100% done
+nofile:0:0: information: Active checkers: 173/186 (use --checkers-report=<filename> to see details) [checkersReport]
+
